@@ -7,10 +7,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style type="text/css">
-        strong
-        {
-        	color:red;
-        }
         .row
         {
         	margin: 0px;
@@ -23,20 +19,12 @@
     	#login
     	{
     		height: 400px;
+    		margin-top: 50px;
     	}
     	#header
     	{
-    		height: 100px;
-    	}
-    	#tree
-    	{
-    		
-    		height: 400px;
-    	}
-    	#data
-    	{
-    		
-    		height: 400px;
+    		background-color: black;
+    		height: 75px;
     	}
     	form
     	{
@@ -46,12 +34,13 @@
 </head>
 <body>
     <div class="col-xs-12 prop" id="header">
-    	<h1 style="color: #00ccff;">MYTA BUSINESS SOLUTIONS</h1>
+    	<h1 style="color: white;">MYTA </h1>
     </div>
     <div class="row">
-    	<div class="col-xs-2 prop" id="login">
+    	<div class="col-xs-4 prop" ></div>
+    	<div class="col-xs-3 prop" id="login">
     		<form class="form" >
-    		   <strong id="confirm"></strong>
+    		   <strong id="confirm" style="color: blue"></strong>
                <div class="form-group">
                   <label for="email">Email address:</label>
                   <input type="email" class="form-control" id="email">
@@ -62,11 +51,11 @@
                </div>
                <button id='but' type="button" class="btn btn-default" onclick="sublogin()">Submit</button>
                <p id="red" style="display: inline; margin-left: 10px">no account?<a onclick="signup()">sign up</a></p>
-               <strong style="display: inline-block; " id="error"></strong>
+               <strong style="display: inline-block;color: red " id="error"></strong>
            </form>
     	</div>
-    	<div class="col-xs-3 prop" id="tree"></div>
-    	<div class="col-xs-7 prop" id="data"></div>
+    	<div class="col-xs-5 prop"></div>
+    	
     </div>
 
 
@@ -75,6 +64,11 @@
     	//to display sign up
     	function signup()
     	{
+    		$('#email').val('');
+    	    $('#pwd').val('');
+    		$('#chkpwd').val('');
+    		$('#confirm').html('');
+    		$('#error').html('');
     		$('#but').remove();
     		$('#red').remove();
     		var form=$('form');
@@ -84,6 +78,11 @@
         //to display login
     	function login()
     	{
+    		$('#email').val('');
+    	    $('#pwd').val('');
+    		$('#chkpwd').val('');
+    		$('#confirm').html('');
+    		$('#error').html('');
             $('#checkpas').remove();
             $('#but').remove();
     		$('#red').remove();
@@ -93,10 +92,30 @@
     	//user submits login form
         function sublogin()
         {
+        	$('#confirm').html('');
         	var em=$('#email');
         	var pwd=$('#pwd');
         	var chkpwd=$('#chkpwd');
         	var err=$('#error');
+        	var re0=/^\s*$/;
+        	if(re0.test(em.val())||re0.test(pwd.val()))
+        	{
+        		err.text("all fields are required!");
+        		return;
+        	}
+        	err.html('');
+        	var re1 = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        	console.log(em.html());
+        	if(!re1.test(String(em.val()).toLowerCase()))
+        	{
+                err.text("enter valid email address");
+                return;
+        	}
+        	err.html('');
+        	if(users[0]==null)
+        	{
+        		 $('#confirm').text('invalid credentials')
+        	}
         	users.map(function(v)
             {
                 if(v.email==em.val())
@@ -105,6 +124,14 @@
                     {
                     	$('#login').css('visibility','hidden')
                     }
+                    else
+                    {
+                	    $('#confirm').text('invalid credentials')
+                    }
+                }
+                else
+                {
+                	$('#confirm').text('invalid credentials')
                 }
             });
 
@@ -113,6 +140,7 @@
         //when user submits the signup form
         function subsignup()
         {
+        	$('#confirm').html('');
         	var em=$('#email');
         	var pwd=$('#pwd');
         	var chkpwd=$('#chkpwd');
@@ -154,9 +182,9 @@
                 var user={email:em.val(),password:pwd.val()};
                 users.push(user);
                 $('#confirm').text("succesfully registered");
-                em.attr('value','');
-                pwd.attr('value','');
-                chkpwd.attr('value','');
+                em.val('');
+                pwd.val('');
+                chkpwd.val('');
                 console.log(users);
             }
             else
@@ -168,4 +196,4 @@
 
     </script>
 </body>
-</html>
+</html>1
