@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        strong
+        {
+        	color:red;
+        }
+        .row
+        {
+        	margin: 0px;
+        }
+    	.prop
+    	{
+    		background-color: white ;
+    		
+    	}
+    	#login
+    	{
+    		height: 400px;
+    	}
+    	#header
+    	{
+    		height: 100px;
+    	}
+    	#tree
+    	{
+    		
+    		height: 400px;
+    	}
+    	#data
+    	{
+    		
+    		height: 400px;
+    	}
+    	form
+    	{
+    		margin-top: 52px;
+    	}
+    </style>
+</head>
+<body>
+    <div class="col-xs-12 prop" id="header">
+    	<h1 style="color: #00ccff;">MYTA BUSINESS SOLUTIONS</h1>
+    </div>
+    <div class="row">
+    	<div class="col-xs-2 prop" id="login">
+    		<form class="form" >
+    		   <strong id="confirm"></strong>
+               <div class="form-group">
+                  <label for="email">Email address:</label>
+                  <input type="email" class="form-control" id="email">
+               </div>
+               <div class="form-group" id="pas">
+                  <label for="pwd">Password:</label>
+                  <input type="password" class="form-control" id="pwd">
+               </div>
+               <button id='but' type="button" class="btn btn-default" onclick="sublogin()">Submit</button>
+               <p id="red" style="display: inline; margin-left: 10px">no account?<a onclick="signup()">sign up</a></p>
+               <strong style="display: inline-block; " id="error"></strong>
+           </form>
+    	</div>
+    	<div class="col-xs-3 prop" id="tree"></div>
+    	<div class="col-xs-7 prop" id="data"></div>
+    </div>
+
+
+    <script type="text/javascript">
+    	var users=[];
+    	//to display sign up
+    	function signup()
+    	{
+    		$('#but').remove();
+    		$('#red').remove();
+    		var form=$('form');
+    		var checkpasssword= '<div class="form-group" id="checkpas"><label for="chkpwd">Confirm Password:</label><input type="password" class="form-control" id="chkpwd">  </div> <button type="button" id="but" class="btn btn-default" onclick="subsignup()">Submit</button><p id="red" style="display: inline; margin-left: 10px">had an account?<a onclick="login()">login</a></p><strong style="display: inline-block;" id="error"></strong>';
+    		$('#pas').after(checkpasssword);
+    	}
+        //to display login
+    	function login()
+    	{
+            $('#checkpas').remove();
+            $('#but').remove();
+    		$('#red').remove();
+            var button='<button id="but" type="button" class="btn btn-default" onclick="sublogin()">Submit</button>  <p id="red" style="display: inline; margin-left: 10px">no account?<a onclick="signup()">sign up</a></p><strong id="error"></strong>';
+            $('#pas').after(button);
+    	}
+    	//user submits login form
+        function sublogin()
+        {
+        	var em=$('#email');
+        	var pwd=$('#pwd');
+        	var chkpwd=$('#chkpwd');
+        	var err=$('#error');
+        	users.map(function(v)
+            {
+                if(v.email==em.val())
+                {
+                    if(v.password==pwd.val())
+                    {
+                    	$('#login').css('visibility','hidden')
+                    }
+                }
+            });
+
+
+        }
+        //when user submits the signup form
+        function subsignup()
+        {
+        	var em=$('#email');
+        	var pwd=$('#pwd');
+        	var chkpwd=$('#chkpwd');
+        	var err=$('#error');
+        	var re0=/^\s*$/;
+        	if(re0.test(em.val())||re0.test(pwd.val())||re0.test(chkpwd.val()))
+        	{
+        		err.text("all fields are required!");
+        		return;
+        	}
+        	err.html('');
+        	var re1 = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        	console.log(em.html());
+        	if(!re1.test(String(em.val()).toLowerCase()))
+        	{
+                err.text("enter valid email address");
+                return;
+        	}
+        	err.html('');
+            var re2=/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+            if(!re2.test(pwd.val()))
+            {
+            	err.text("password should contain minimum eight characters, at least one letter and one number");
+            	return;
+            }
+            err.html('');
+            if(pwd.val()===chkpwd.val())
+            {
+            	//checks if user already exists
+            	users.map(function(v)
+            	{
+                   if(v.email==em.val())
+                   {
+                      err.text("user already exists!");
+                      return;
+                   }
+            	});
+            	//stores data in array
+                var user={email:em.val(),password:pwd.val()};
+                users.push(user);
+                $('#confirm').text("succesfully registered");
+                em.attr('value','');
+                pwd.attr('value','');
+                chkpwd.attr('value','');
+                console.log(users);
+            }
+            else
+            {
+            	err.text("passwords do not match");
+            	return;
+            }
+        }
+
+    </script>
+</body>
+</html>
