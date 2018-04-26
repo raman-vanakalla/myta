@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        .d
+        {
+        	background-color: white;
+        	height: 655px;
+        	border: 1px solid black;
+        }
+        .row
+        {
+        	margin: 0px;
+        }
+    	.prop
+    	{
+    		background-color: white ;
+    		
+    	}
+    	#login
+    	{
+    		height: 400px;
+    		margin-top: 50px;
+    	}
+    	#header
+    	{
+    		background-color: black;
+    		height: 75px;
+    	}
+    	form
+    	{
+    		margin-top: 52px;
+    	}
+    	#contain
+    	{
+    		margin-top: 20px;
+    	}
+    	h2
+    	{
+    		text-align: center;
+    	}
+    	.question
+    	{
+    		margin: 50px 5px 0px 5px ;
+    	}
+    	#addform
+    	{
+    		margin-top: 50px;
+    	}
+    </style>
+</head>
+<body>
+    <div class="col-xs-12 prop" id="header">
+    	<h1 style="color: white;">MYTA </h1>
+    </div>
+    <div class="row" id="row"></div>
+
+
+    <script type="text/javascript">
+        
+  var data={
+  	"gradesList": [
+    {
+      "name": "Grade 11",
+      "subjectList": [
+        {
+          "name": "Science",
+          "chapterList": [
+            {
+              "name": "Electric Charge",
+              "questionList": [
+                {
+                  "question": "What is charge?",
+                  "answer": "Electric Charge is that physical property of matter due to which the other matter experience a force when matters are placed in electromagnetic field."
+                },
+                {
+                  "question": " How much positive and negative charge is there in a cup of water?",
+                  "answer": "The number of molecules in one cup of water is (250/18) × 6.02 × 1023"
+                }
+              ]
+            }
+          ]
+        },
+{
+          "name": "Mathematics",
+          "chapterList": [
+            {
+              "name": "Equation of line",
+              "questionList": [
+                {
+                  "question": "What is the slope of x=0?",
+                  "answer": "Infinite"
+                },
+                {
+                  "question": " What is the slope of y=0?",
+                  "answer": "Zero"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Grade 12",
+      "subjectList": [
+        {
+          "name": "Social Studies",
+          "chapterList": [
+            {
+              "name": "Rulers of USA",
+              "questionList": [
+                {
+                  "question": "Who controlled the colony of New York before the English?",
+                  "answer": "The Dutch"
+                },
+                {
+                  "question": " Who was the founder of New York and New Jersey?",
+                  "answer": "The Duke of York"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+        function get(e)
+        {
+        	$('#show').html('');
+        	$('#qa').append('<div id="show"></div>');
+        	$('#show').append('<h2>Question/Answers</h2>');
+        	var target=e.target;
+        	var chap=target.innerHTML;
+        	var subnode=target.parentNode.parentNode.previousSibling;
+        	var gradenode=subnode.parentNode.previousSibling;
+        	var sub=subnode.innerHTML;
+        	var grade=gradenode.innerHTML;
+            data.gradesList.map(function(doc)
+            {
+               if(doc.name==grade)
+               {
+               	  console.log('yes');
+               	  var arr=doc.subjectList;
+               	  if(arr[0]!=null)
+               	  {
+               	  	 arr.map(function(subject)
+               	  	 {
+               	  	 	console.log(sub.length,subject.name.length);
+               	  	    if(sub==subject.name)
+                        {
+                        	console.log('yes');
+                        	var arr1=subject.chapterList;
+                        	if(arr1[0]!=null)
+                        	{
+                        		arr1.map(function(chapter)
+                        		{
+                        			if(chapter.name==chap)
+                        			{
+                        				console.log('yes');
+                                        var arr2=chapter.questionList;
+                                        if(arr2[0]!=null)
+                                        {
+                                        	var i=0;
+                                        	arr2.map(function(qa)
+                                        	{
+                                               i++;
+                                               var div=document.createElement('div');
+                                               div.setAttribute('class','question');
+                                               var q=document.createElement('p');
+                                               q.innerHTML= 'Q'+i+') '+ qa.question;
+                                               var a=document.createElement('p');
+                                               a.innerHTML='Ans)'+qa.answer;
+                                               div.appendChild(q);
+                                               div.appendChild(a);
+                                               document.getElementById('show').appendChild(div);
+                                        	});
+                                        }
+                        			}
+                        		});
+                        	}
+                        }
+                        else
+                        {
+                        	console.log('no');
+                        }
+               	  	 });
+               	  }
+               }
+            });
+        }
+        var i=0;
+    	function dat()
+        {
+        	console.log("called");
+        	var attach=' <div id="add" class="col-xs-3 d" ></div> <div class="col-xs-3 d" id="navi" ></div> <div id="qa" class="col-xs-6 d" ></div>';
+        	$('#row').append(attach);
+        	$('#add').append('<div id="addform"> </div>');
+        	$('#addform').append('<button type="button" class="btn btn-primary">ADD</button>');
+        	$('button').on('click',function(){console.log('clicked!');});
+        	$('#qa').append('<div id="show"></div>');
+        	$('#show').append('<h2>Question/Answers</h2>');
+            $('#navi').append('<div id="contain"></div>');
+            $('#contain').append('<h2 >Navigation</h2>');
+            $('#contain').append('<ul id="grades"></ul>');
+            var arr=data.gradesList;
+            if(arr[0]!=null)
+            { 
+            	console.log("yoo!");
+            	arr.map(function(v)
+                {
+                    $('#grades').append('<li >'+v.name+'</li>');
+                    var arr1=v.subjectList;
+                    if(arr1[0]!=null)
+                    {
+                    	i++;
+                         $('#grades').append('<ul id="i'+i+'"> </ul>');
+                         var prev=i;
+                         arr1.map(function(va)
+                         {
+                           	var id='i'+prev;
+                         	console.log(id);
+                         	var node='<li>'+va.name+'</li>';
+                            $('#'+id).append(node);
+                            var arr2=va.chapterList;
+                            if(arr2[0]!=null)
+                            { 
+                           	    i++;
+                                $('#'+id).append('<ul id="id'+i+'"></ul>');
+                                arr2.map(function(val)
+                                {
+                                  	id='id'+i;
+                                    node='<li><a >'+val.name+'</a></li>';
+                                    $('#'+id).append(node);
+                                });
+                            }
+                         });
+
+                    }
+
+                });
+                $('a').on('click',function(e){get(e);});
+            }
+        }
+         dat();
+        
+       
+
+
+
+
+
+   
+    </script>
+</body>
+</html>
