@@ -11,7 +11,7 @@ Functionalities:<br/>
 • To allow addition of grades, subjects, chapters and questions/answers, and update UI accordingly.<br/><br/><br/><br/>
 
 The webpage is live on https://raman-vanakalla.github.io/myta/  </br></br>
-
+Technologies used:html,css,javascript,bootstrap,jquery </br></br>
 main file:index.html<br/>
 test1 and test2 is different pages one for login/signup and other for data displaying<br/><br/>
 
