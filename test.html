@@ -10,8 +10,9 @@
         .d
         {
         	background-color: white;
-        	height: 655px;
+        	height: 659px;
         	border: 1px solid black;
+        	overflow-y:auto;
         }
         .row
         {
@@ -46,7 +47,7 @@
     	}
     	.question
     	{
-    		margin: 50px 5px 0px 5px ;
+    		margin: 50px 10px 0px 25px ;
     	}
     	#addform
     	{
@@ -182,6 +183,10 @@
                                                document.getElementById('show').appendChild(div);
                                         	});
                                         }
+                                        else
+                                        {
+                                        	$('#show').append('<h2>No questions available</h2>');
+                                        }
                         			}
                         		});
                         	}
@@ -198,12 +203,17 @@
         var i=0;
     	function dat()
         {
+        	if($('#row').html())
+        	{
+        		$('#row').html('');
+        	}
         	console.log("called");
         	var attach=' <div id="add" class="col-xs-3 d" ></div> <div class="col-xs-3 d" id="navi" ></div> <div id="qa" class="col-xs-6 d" ></div>';
         	$('#row').append(attach);
         	$('#add').append('<div id="addform"> </div>');
         	$('#addform').append('<button type="button" class="btn btn-primary">ADD</button>');
-        	$('button').on('click',function(){console.log('clicked!');});
+        	$('#addform').append('<h3>Click the button to add</h3>');
+        	$('button').on('click',adddetails);
         	$('#qa').append('<div id="show"></div>');
         	$('#show').append('<h2>Question/Answers</h2>');
             $('#navi').append('<div id="contain"></div>');
@@ -248,8 +258,210 @@
                 $('a').on('click',function(e){get(e);});
             }
         }
-         dat();
-        
+        function adddetails()
+        {
+        	$('h3').remove();
+           console.log("in adddetails function");
+           if($('form'))
+           {
+           	  console.log("ayya");
+           	  $('form').remove();
+           }
+           document.getElementsByTagName('button')[0].innerHTML='cancel';
+           $('button').on('click',cancel)
+           $('#addform').append('<form></form>');
+           $('form').append('<p>Select the grade from the dropdown</p>');
+           $('form').append('<select id="dropgrade" name="grade" onchange="setgrade(options[this.selectedIndex].value)"></select>');
+           $('#dropgrade').append('<option value="select">select</option>');
+           $('#dropgrade').append('<option value="new">new</option>');
+           data.gradesList.map(function(doc)
+           {
+               $('#dropgrade').append('<option value="'+doc.name+'">'+doc.name+'</option>');
+           });
+        }
+        function setgrade(name)
+        {
+        	console.log("in setgrade function");
+        	document.getElementById('dropgrade').disabled=true;
+        	if(name=='new')
+        	{
+        		$('form').html('');
+        		$('form').append('<input type="text" class="form-control" id="newgrade">');
+        		$('form').append('</br>');
+        		$('form').append('<button type="button" class="btn btn-primary">Done</button>');
+        		$('button').on('click',function(){if($('#newgrade').val().trim().length>0){newgrade($('#newgrade').val().trim())}});
+        	}
+        	else
+        	{
+        		$('form').append('</br></br>');
+        		$('form').append('<p>Select the subject from the following</p>');
+        		$('form').append('<select id="dropsub" name="sub" onchange="setsub(options[this.selectedIndex].value)"></select>');
+        		$('#dropsub').append('<option value="select">select</option>');
+                $('#dropsub').append('<option value="new">new</option>');
+                data.gradesList.map(function(doc)
+                {
+                   if(doc.name==name)
+                   {
+                   	  doc.subjectList.map(function(doc1)
+                   	  {
+                         $('#dropsub').append('<option value="'+doc1.name+'">'+doc1.name+'</option>');
+                   	  });
+                   }
+                });
+        	}
+
+        }
+        function newgrade(newgradename)
+        {
+        	console.log('in newgrade function');
+            var newg={};
+            newg.name=newgradename;
+            newg.subjectList=[];
+            data.gradesList.push(newg);
+            
+            dat();
+        }
+        function setsub(name)
+        {
+        	console.log("in setsub function");
+        	document.getElementById('dropsub').disabled=true;
+            if(name=='new')
+            {
+            	$('#dropsub').prev().remove();
+            	$('#dropsub').remove();
+            	$('form').append('<input type="text" class="form-control" id="newsub">');
+        		$('form').append('</br>');
+        		$('form').append('<button type="button" class="btn btn-primary">Done</button>');
+        		$('button').on('click',function(){if($('#newsub').val().trim().length>0){newsub($('#newsub').val().trim(),$('#dropgrade').val())}});
+            }
+            else
+            {
+            	$('form').append('</br></br>');
+        		$('form').append('<p>Select the chapter from the following</p>');
+        		$('form').append('<select id="dropchap" name="chap" onchange="setchap(options[this.selectedIndex].value)"></select>');
+        		$('#dropchap').append('<option value="select">select</option>');
+                $('#dropchap').append('<option value="new">new</option>');
+                var grade=$('#dropgrade').val();
+                var sub=$('#dropsub').val();
+                console.log(grade,sub);
+                data.gradesList.map(function(doc)
+                {
+                   if(doc.name==grade)
+                   {
+                   	  doc.subjectList.map(function(doc1)
+                   	  {
+                         if(doc1.name==sub)
+                         {
+                         	doc1.chapterList.map(function(doc2)
+                         	{
+                               $('#dropchap').append('<option value="'+doc2.name+'">'+doc2.name+'</option>');
+                         	});
+                         }
+                   	  });
+                   }
+                });
+            }
+        }
+        function newsub(newsubname,grade)
+        {
+            console.log("in newsub");
+            var news={};
+            news.name=newsubname;
+            news.chapterList=[];
+            data.gradesList.map(function(doc)
+            {
+                if(doc.name==grade)
+                {
+                	doc.subjectList.push(news);
+                }
+            });  
+            dat();    	
+        }
+        function setchap(name)
+        {
+            console.log("in setsub function");
+        	document.getElementById('dropsub').disabled=true;
+        	if(name=='new')
+        	{
+        		$('#dropchap').prev().remove();
+            	$('#dropchap').remove();
+            	$('form').append('<input type="text" class="form-control" id="newchap">');
+        		$('form').append('</br>');
+        		$('form').append('<button type="button" class="btn btn-primary">Done</button>');
+        		$('button').on('click',function(){if($('#newchap').val().trim().length>0){newchap($('#newchap').val().trim(),$('#dropgrade').val(),$('#dropsub').val())}});
+        	}
+        	else
+        	{
+        		$('form').append('</br></br>');
+        		$('form').append('<b>Question:</b>');
+        		$('form').append(' <textarea class="form-control" rows="2" id="question"></textarea>');
+        		$('form').append('<b>Answer:</b>');
+        		$('form').append(' <textarea class="form-control" rows="5" id="answer"></textarea>');
+                $('form').append('<button type="button" class="btn btn-primary">Done</button>');
+        		$('button').on('click',function(){if($('#question').val().trim().length>0&& $('#answer').val().trim().length>0){newques($('#question').val(),$('#answer').val(),$('#dropgrade').val(),$('#dropsub').val(),$('#dropchap').val())}});
+        	}
+        }
+        function newchap(newchapname,grade,subject)
+        {
+        	console.log("in newchap function");
+            var newc={};
+            newc.name=newchapname;
+            newc.questionList=[];
+            data.gradesList.map(function(doc)
+            {
+                if(doc.name==grade)
+                {
+                	doc.subjectList.map(function(doc1)
+                	{
+                       if(doc1.name==subject)
+                       {
+                       	 doc1.chapterList.push(newc);
+                       }
+                	});
+                }
+            }); 
+            
+            dat();  
+        }
+        function newques(question,answer,grade,subject,chapter)
+        {
+        	var newq={};
+        	newq.question=question;
+        	newq.answer=answer;
+        	data.gradesList.map(function(doc)
+            {
+                if(doc.name==grade)
+                {
+                	doc.subjectList.map(function(doc1)
+                	{
+                       if(doc1.name==subject)
+                       {
+                       	 doc1.chapterList.map(function(doc2)
+                       	 {
+                            if(doc2.name==chapter)
+                            {
+                            	doc2.questionList.push(newq);
+                            }
+                       	 });
+                       }
+                	});
+                }
+            }); 
+            
+            dat();  
+        }
+        function cancel()
+        {
+        	if($('#addform'))
+        	{
+        		$('#addform').remove();
+        	}
+        	$('#add').append('<div id="addform"> </div>');
+        	$('#addform').append('<button type="button" class="btn btn-primary">ADD</button>');
+        	$('#addform').append('<h3>Click the button to add</h3>');
+        	$('button').on('click',adddetails);
+        }
+        dat();
        
 
 
