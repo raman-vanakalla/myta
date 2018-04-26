@@ -83,8 +83,8 @@
 
 
     <script type="text/javascript">
-        var data={
-    "gradesList": [
+var data= {"gradesList":
+ [
     {
       "name": "Grade 11",
       "subjectList": [
@@ -151,8 +151,9 @@
     }
   ]
 }
+       //the data of the users are stored in it
         var users=[];
-        //to display sign up
+        //to display sign up when signup is clicked
         function signup()
         {
             $('#email').val('');
@@ -166,7 +167,7 @@
             var checkpasssword= '<div class="form-group" id="checkpas"><label for="chkpwd">Confirm Password:</label><input type="password" class="form-control" id="chkpwd">  </div> <button type="button" id="but" class="btn btn-default" onclick="subsignup()">Submit</button><p id="red" style="display: inline; margin-left: 10px">had an account?<a onclick="login()">login</a></p><strong style="display: inline-block;" id="error"></strong>';
             $('#pas').after(checkpasssword);
         }
-        //to display login
+        //to display login when login is clicked
         function login()
         {
             $('#email').val('');
@@ -196,7 +197,7 @@
             }
             err.html('');
             var re1 = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-            console.log(em.html());
+            
             if(!re1.test(String(em.val()).toLowerCase()))
             {
                 err.text("enter valid email address");
@@ -205,7 +206,7 @@
             err.html('');
              if(users[0]==null)
             {
-                 $('#confirm').text('invalid credentials')
+                 $('#confirm').text('invalid credentials');
             }
             users.map(function(v)
             {
@@ -218,12 +219,12 @@
                     }
                     else
                     {
-                        $('#confirm').text('invalid credentials')
+                        $('#confirm').text('invalid credentials');
                     }
                 }
                 else
                 {
-                    $('#confirm').text('invalid credentials')
+                    $('#confirm').text('invalid credentials');
                 }
             });
 
@@ -245,7 +246,7 @@
             }
             err.html('');
             var re1 = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-            console.log(em.html());
+            
             if(!re1.test(String(em.val()).toLowerCase()))
             {
                 err.text("enter valid email address");
@@ -277,7 +278,7 @@
                 em.val('');
                 pwd.val('');
                 chkpwd.val('');
-                console.log(users);
+                
             }
             else
             {
@@ -285,7 +286,8 @@
                 return;
             }
         }
-         function get(e)
+        //when a link is clicked
+        function get(e)
         {
             $('#show').html('');
             $('#qa').append('<div id="show"></div>');
@@ -300,16 +302,16 @@
             {
                if(doc.name==grade)
                {
-                  console.log('yes');
+                  
                   var arr=doc.subjectList;
                   if(arr[0]!=null)
                   {
                      arr.map(function(subject)
                      {
-                        console.log(sub.length,subject.name.length);
+                        
                         if(sub==subject.name)
                         {
-                            console.log('yes');
+                            
                             var arr1=subject.chapterList;
                             if(arr1[0]!=null)
                             {
@@ -317,7 +319,7 @@
                                 {
                                     if(chapter.name==chap)
                                     {
-                                        console.log('yes');
+                                        
                                         var arr2=chapter.questionList;
                                         if(arr2[0]!=null)
                                         {
@@ -344,23 +346,21 @@
                                 });
                             }
                         }
-                        else
-                        {
-                            console.log('no');
-                        }
+                        
                      });
                   }
                }
             });
         }
         var i=0;
+        //called when a user's authentication is done,displays the data
         function dat()
         {
             if($('#row').html())
             {
                 $('#row').html('');
             }
-            console.log("called");
+            
             var attach=' <div id="add" class="col-xs-3 d" ></div> <div class="col-xs-3 d" id="navi" ></div> <div id="qa" class="col-xs-6 d" ></div>';
             $('#row').append(attach);
             $('#add').append('<div id="addform"> </div>');
@@ -375,7 +375,7 @@
             var arr=data.gradesList;
             if(arr[0]!=null)
             { 
-                console.log("yoo!");
+                
                 arr.map(function(v)
                 {
                     $('#grades').append('<li >'+v.name+'</li>');
@@ -388,7 +388,7 @@
                          arr1.map(function(va)
                          {
                             var id='i'+prev;
-                            console.log(id);
+                           
                             var node='<li>'+va.name+'</li>';
                             $('#'+id).append(node);
                             var arr2=va.chapterList;
@@ -409,15 +409,19 @@
 
                 });
                 $('a').on('click',function(e){get(e);});
+                
+
             }
         }
+
+        //when add is clicked
         function adddetails()
         {
             $('h3').remove();
-           console.log("in adddetails function");
+           
            if($('form'))
            {
-              console.log("ayya");
+              
               $('form').remove();
            }
            document.getElementsByTagName('button')[0].innerHTML='cancel';
@@ -432,6 +436,7 @@
                $('#dropgrade').append('<option value="'+doc.name+'">'+doc.name+'</option>');
            });
         }
+        //when any grade is selected
         function setgrade(name)
         {
             console.log("in setgrade function");
@@ -464,6 +469,7 @@
             }
 
         }
+        //when new grade is to be created
         function newgrade(newgradename)
         {
             console.log('in newgrade function');
@@ -474,6 +480,7 @@
             
             dat();
         }
+        //when any subject is selected
         function setsub(name)
         {
             console.log("in setsub function");
@@ -496,7 +503,7 @@
                 $('#dropchap').append('<option value="new">new</option>');
                 var grade=$('#dropgrade').val();
                 var sub=$('#dropsub').val();
-                console.log(grade,sub);
+                
                 data.gradesList.map(function(doc)
                 {
                    if(doc.name==grade)
@@ -515,6 +522,7 @@
                 });
             }
         }
+        //when a new subject is created
         function newsub(newsubname,grade)
         {
             console.log("in newsub");
@@ -530,6 +538,7 @@
             });  
             dat();      
         }
+        //when a chapter is selected
         function setchap(name)
         {
             console.log("in setsub function");
@@ -554,6 +563,7 @@
                 $('button').on('click',function(){if($('#question').val().trim().length>0&& $('#answer').val().trim().length>0){newques($('#question').val(),$('#answer').val(),$('#dropgrade').val(),$('#dropsub').val(),$('#dropchap').val())}});
             }
         }
+        //when new chapter is created
         function newchap(newchapname,grade,subject)
         {
             console.log("in newchap function");
@@ -576,6 +586,7 @@
             
             dat();  
         }
+        //when a  new question is created
         function newques(question,answer,grade,subject,chapter)
         {
             var newq={};
@@ -603,6 +614,7 @@
             
             dat();  
         }
+        //when a user clicks cancel
         function cancel()
         {
             if($('#addform'))

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        .d
+        {
+        	background-color: white;
+        	height: 659px;
+        	border: 1px solid black;
+        	overflow-y:auto;
+        }
+        .row
+        {
+        	margin: 0px;
+        }
+    	.prop
+    	{
+    		background-color: white ;
+    		
+    	}
+    	#login
+    	{
+    		height: 400px;
+    		margin-top: 50px;
+    	}
+    	#header
+    	{
+    		background-color: black;
+    		height: 75px;
+    	}
+    	form
+    	{
+    		margin-top: 52px;
+    	}
+    	#contain
+    	{
+    		margin-top: 20px;
+    	}
+    	h2
+    	{
+    		text-align: center;
+    	}
+    	.question
+    	{
+    		margin: 50px 10px 0px 25px ;
+    	}
+    	#addform
+    	{
+    		margin-top: 50px;
+    	}
+    </style>
+</head>
+<body>
+    <div class="col-xs-12 prop" id="header">
+    	<h1 style="color: white;">MYTA </h1>
+    </div>
+    <div class="row" id="row"></div>
+
+
+    <script type="text/javascript">
+        
+  var data={
+  	"gradesList": [
+    {
+      "name": "Grade 11",
+      "subjectList": [
+        {
+          "name": "Science",
+          "chapterList": [
+            {
+              "name": "Electric Charge",
+              "questionList": [
+                {
+                  "question": "What is charge?",
+                  "answer": "Electric Charge is that physical property of matter due to which the other matter experience a force when matters are placed in electromagnetic field."
+                },
+                {
+                  "question": " How much positive and negative charge is there in a cup of water?",
+                  "answer": "The number of molecules in one cup of water is (250/18) × 6.02 × 1023"
+                }
+              ]
+            }
+          ]
+        },
+{
+          "name": "Mathematics",
+          "chapterList": [
+            {
+              "name": "Equation of line",
+              "questionList": [
+                {
+                  "question": "What is the slope of x=0?",
+                  "answer": "Infinite"
+                },
+                {
+                  "question": " What is the slope of y=0?",
+                  "answer": "Zero"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Grade 12",
+      "subjectList": [
+        {
+          "name": "Social Studies",
+          "chapterList": [
+            {
+              "name": "Rulers of USA",
+              "questionList": [
+                {
+                  "question": "Who controlled the colony of New York before the English?",
+                  "answer": "The Dutch"
+                },
+                {
+                  "question": " Who was the founder of New York and New Jersey?",
+                  "answer": "The Duke of York"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+        function get(e)
+        {
+        	$('#show').html('');
+        	$('#qa').append('<div id="show"></div>');
+        	$('#show').append('<h2>Question/Answers</h2>');
+        	var target=e.target;
+        	var chap=target.innerHTML;
+        	var subnode=target.parentNode.parentNode.previousSibling;
+        	var gradenode=subnode.parentNode.previousSibling;
+        	var sub=subnode.innerHTML;
+        	var grade=gradenode.innerHTML;
+            data.gradesList.map(function(doc)
+            {
+               if(doc.name==grade)
+               {
+               	  console.log('yes');
+               	  var arr=doc.subjectList;
+               	  if(arr[0]!=null)
+               	  {
+               	  	 arr.map(function(subject)
+               	  	 {
+               	  	 	console.log(sub.length,subject.name.length);
+               	  	    if(sub==subject.name)
+                        {
+                        	console.log('yes');
+                        	var arr1=subject.chapterList;
+                        	if(arr1[0]!=null)
+                        	{
+                        		arr1.map(function(chapter)
+                        		{
+                        			if(chapter.name==chap)
+                        			{
+                        				console.log('yes');
+                                        var arr2=chapter.questionList;
+                                        if(arr2[0]!=null)
+                                        {
+                                        	var i=0;
+                                        	arr2.map(function(qa)
+                                        	{
+                                               i++;
+                                               var div=document.createElement('div');
+                                               div.setAttribute('class','question');
+                                               var q=document.createElement('p');
+                                               q.innerHTML= 'Q'+i+') '+ qa.question;
+                                               var a=document.createElement('p');
+                                               a.innerHTML='Ans)'+qa.answer;
+                                               div.appendChild(q);
+                                               div.appendChild(a);
+                                               document.getElementById('show').appendChild(div);
+                                        	});
+                                        }
+                                        else
+                                        {
+                                        	$('#show').append('<h2>No questions available</h2>');
+                                        }
+                        			}
+                        		});
+                        	}
+                        }
+                        else
+                        {
+                        	console.log('no');
+                        }
+               	  	 });
+               	  }
+               }
+            });
+        }
+        var i=0;
+    	function dat()
+        {
+        	if($('#row').html())
+        	{
+        		$('#row').html('');
+        	}
+        	console.log("called");
+        	var attach=' <div id="add" class="col-xs-3 d" ></div> <div class="col-xs-3 d" id="navi" ></div> <div id="qa" class="col-xs-6 d" ></div>';
+        	$('#row').append(attach);
+        	$('#add').append('<div id="addform"> </div>');
+        	$('#addform').append('<button type="button" class="btn btn-primary">ADD</button>');
+        	$('#addform').append('<h3>Click the button to add</h3>');
+        	$('button').on('click',adddetails);
+        	$('#qa').append('<div id="show"></div>');
+        	$('#show').append('<h2>Question/Answers</h2>');
+            $('#navi').append('<div id="contain"></div>');
+            $('#contain').append('<h2 >Navigation</h2>');
+            $('#contain').append('<ul id="grades"></ul>');
+            var arr=data.gradesList;
+            if(arr[0]!=null)
+            { 
+            	console.log("yoo!");
+            	arr.map(function(v)
+                {
+                    $('#grades').append('<li >'+v.name+'</li>');
+                    var arr1=v.subjectList;
+                    if(arr1[0]!=null)
+                    {
+                    	i++;
+                         $('#grades').append('<ul id="i'+i+'"> </ul>');
+                         var prev=i;
+                         arr1.map(function(va)
+                         {
+                           	var id='i'+prev;
+                         	console.log(id);
+                         	var node='<li>'+va.name+'</li>';
+                            $('#'+id).append(node);
+                            var arr2=va.chapterList;
+                            if(arr2[0]!=null)
+                            { 
+                           	    i++;
+                                $('#'+id).append('<ul id="id'+i+'"></ul>');
+                                arr2.map(function(val)
+                                {
+                                  	id='id'+i;
+                                    node='<li><a >'+val.name+'</a></li>';
+                                    $('#'+id).append(node);
+                                });
+                            }
+                         });
+
+                    }
+
+                });
+                $('a').on('click',function(e){get(e);});
+            }
+        }
+        function adddetails()
+        {
+        	$('h3').remove();
+           console.log("in adddetails function");
+           if($('form'))
+           {
+           	  console.log("ayya");
+           	  $('form').remove();
+           }
+           document.getElementsByTagName('button')[0].innerHTML='cancel';
+           $('button').on('click',cancel)
+           $('#addform').append('<form></form>');
+           $('form').append('<p>Select the grade from the dropdown</p>');
+           $('form').append('<select id="dropgrade" name="grade" onchange="setgrade(options[this.selectedIndex].value)"></select>');
+           $('#dropgrade').append('<option value="select">select</option>');
+           $('#dropgrade').append('<option value="new">new</option>');
+           data.gradesList.map(function(doc)
+           {
+               $('#dropgrade').append('<option value="'+doc.name+'">'+doc.name+'</option>');
+           });
+        }
+        function setgrade(name)
+        {
+        	console.log("in setgrade function");
+        	document.getElementById('dropgrade').disabled=true;
+        	if(name=='new')
+        	{
+        		$('form').html('');
+        		$('form').append('<input type="text" class="form-control" id="newgrade">');
+        		$('form').append('</br>');
+        		$('form').append('<button type="button" class="btn btn-primary">Done</button>');
+        		$('button').on('click',function(){if($('#newgrade').val().trim().length>0){newgrade($('#newgrade').val().trim())}});
+        	}
+        	else
+        	{
+        		$('form').append('</br></br>');
+        		$('form').append('<p>Select the subject from the following</p>');
+        		$('form').append('<select id="dropsub" name="sub" onchange="setsub(options[this.selectedIndex].value)"></select>');
+        		$('#dropsub').append('<option value="select">select</option>');
+                $('#dropsub').append('<option value="new">new</option>');
+                data.gradesList.map(function(doc)
+                {
+                   if(doc.name==name)
+                   {
+                   	  doc.subjectList.map(function(doc1)
+                   	  {
+                         $('#dropsub').append('<option value="'+doc1.name+'">'+doc1.name+'</option>');
+                   	  });
+                   }
+                });
+        	}
+
+        }
+        function newgrade(newgradename)
+        {
+        	console.log('in newgrade function');
+            var newg={};
+            newg.name=newgradename;
+            newg.subjectList=[];
+            data.gradesList.push(newg);
+            
+            dat();
+        }
+        function setsub(name)
+        {
+        	console.log("in setsub function");
+        	document.getElementById('dropsub').disabled=true;
+            if(name=='new')
+            {
+            	$('#dropsub').prev().remove();
+            	$('#dropsub').remove();
+            	$('form').append('<input type="text" class="form-control" id="newsub">');
+        		$('form').append('</br>');
+        		$('form').append('<button type="button" class="btn btn-primary">Done</button>');
+        		$('button').on('click',function(){if($('#newsub').val().trim().length>0){newsub($('#newsub').val().trim(),$('#dropgrade').val())}});
+            }
+            else
+            {
+            	$('form').append('</br></br>');
+        		$('form').append('<p>Select the chapter from the following</p>');
+        		$('form').append('<select id="dropchap" name="chap" onchange="setchap(options[this.selectedIndex].value)"></select>');
+        		$('#dropchap').append('<option value="select">select</option>');
+                $('#dropchap').append('<option value="new">new</option>');
+                var grade=$('#dropgrade').val();
+                var sub=$('#dropsub').val();
+                console.log(grade,sub);
+                data.gradesList.map(function(doc)
+                {
+                   if(doc.name==grade)
+                   {
+                   	  doc.subjectList.map(function(doc1)
+                   	  {
+                         if(doc1.name==sub)
+                         {
+                         	doc1.chapterList.map(function(doc2)
+                         	{
+                               $('#dropchap').append('<option value="'+doc2.name+'">'+doc2.name+'</option>');
+                         	});
+                         }
+                   	  });
+                   }
+                });
+            }
+        }
+        function newsub(newsubname,grade)
+        {
+            console.log("in newsub");
+            var news={};
+            news.name=newsubname;
+            news.chapterList=[];
+            data.gradesList.map(function(doc)
+            {
+                if(doc.name==grade)
+                {
+                	doc.subjectList.push(news);
+                }
+            });  
+            dat();    	
+        }
+        function setchap(name)
+        {
+            console.log("in setsub function");
+        	document.getElementById('dropsub').disabled=true;
+        	if(name=='new')
+        	{
+        		$('#dropchap').prev().remove();
+            	$('#dropchap').remove();
+            	$('form').append('<input type="text" class="form-control" id="newchap">');
+        		$('form').append('</br>');
+        		$('form').append('<button type="button" class="btn btn-primary">Done</button>');
+        		$('button').on('click',function(){if($('#newchap').val().trim().length>0){newchap($('#newchap').val().trim(),$('#dropgrade').val(),$('#dropsub').val())}});
+        	}
+        	else
+        	{
+        		$('form').append('</br></br>');
+        		$('form').append('<b>Question:</b>');
+        		$('form').append(' <textarea class="form-control" rows="2" id="question"></textarea>');
+        		$('form').append('<b>Answer:</b>');
+        		$('form').append(' <textarea class="form-control" rows="5" id="answer"></textarea>');
+                $('form').append('<button type="button" class="btn btn-primary">Done</button>');
+        		$('button').on('click',function(){if($('#question').val().trim().length>0&& $('#answer').val().trim().length>0){newques($('#question').val(),$('#answer').val(),$('#dropgrade').val(),$('#dropsub').val(),$('#dropchap').val())}});
+        	}
+        }
+        function newchap(newchapname,grade,subject)
+        {
+        	console.log("in newchap function");
+            var newc={};
+            newc.name=newchapname;
+            newc.questionList=[];
+            data.gradesList.map(function(doc)
+            {
+                if(doc.name==grade)
+                {
+                	doc.subjectList.map(function(doc1)
+                	{
+                       if(doc1.name==subject)
+                       {
+                       	 doc1.chapterList.push(newc);
+                       }
+                	});
+                }
+            }); 
+            
+            dat();  
+        }
+        function newques(question,answer,grade,subject,chapter)
+        {
+        	var newq={};
+        	newq.question=question;
+        	newq.answer=answer;
+        	data.gradesList.map(function(doc)
+            {
+                if(doc.name==grade)
+                {
+                	doc.subjectList.map(function(doc1)
+                	{
+                       if(doc1.name==subject)
+                       {
+                       	 doc1.chapterList.map(function(doc2)
+                       	 {
+                            if(doc2.name==chapter)
+                            {
+                            	doc2.questionList.push(newq);
+                            }
+                       	 });
+                       }
+                	});
+                }
+            }); 
+            
+            dat();  
+        }
+        function cancel()
+        {
+        	if($('#addform'))
+        	{
+        		$('#addform').remove();
+        	}
+        	$('#add').append('<div id="addform"> </div>');
+        	$('#addform').append('<button type="button" class="btn btn-primary">ADD</button>');
+        	$('#addform').append('<h3>Click the button to add</h3>');
+        	$('button').on('click',adddetails);
+        }
+        dat();
+       
+
+
+
+
+
+   
+    </script>
+</body>
+</html>
