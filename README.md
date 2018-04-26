@@ -10,7 +10,7 @@ Functionalities:<br/>
 • To parse the JSON data given in attachment file- json.txt file and display the hierarchy in a navigation-bar webpage. (Refer to attachment file- wireframe.png)<br/><br/>
 • To allow addition of grades, subjects, chapters and questions/answers, and update UI accordingly.<br/><br/><br/><br/>
 
-
+The webpage is live on https://raman-vanakalla.github.io/myta/  </br></br>
 
 main file:index.html<br/>
 test1 and test2 is different pages one for login/signup and other for data displaying<br/><br/>
